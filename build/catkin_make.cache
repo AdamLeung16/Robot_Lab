@@ -1,2 +1,2 @@
-diff_wheeled_robot_control:diff_wheeled_robot_gazebo
+differential_4-wheeled_car:differential_4-wheeled_car_control
 -DCATKIN_DEVEL_PREFIX=/home/adam/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/adam/catkin_ws/install -G Unix Makefiles

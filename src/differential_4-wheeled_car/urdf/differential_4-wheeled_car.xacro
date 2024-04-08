@@ -1,0 +1,152 @@
+<?xml version="1.0"?>
+<robot name="differential_4-wheeled_car" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  
+
+  <xacro:include filename="$(find differential_4-wheeled_car)/urdf/wheel.urdf.xacro" />
+
+
+<!-- Defining the colors used in this robot -->
+  <material name="Black">
+    <color rgba="0.0 0.0 0.0 1.0"/>
+  </material>
+
+  <material name="Red">
+    <color rgba="0.8 0.0 0.0 1.0"/>
+  </material>
+
+  <material name="White">
+    <color rgba="1.0 1.0 1.0 1.0"/>
+  </material>
+
+
+  <material name="Blue">
+    <color rgba="0.0 0.0 0.8 1.0"/>
+  </material>
+
+
+
+  <!-- xacro:PROPERTY LIST -->
+  <!--All units in m-kg-s-radians unit system -->
+  <xacro:property name="M_PI" value="3.1415926535897931" />
+  <xacro:property name="M_PI_2" value="1.570796327" />
+  <xacro:property name="DEG_TO_RAD" value="0.017453293" />
+
+  <!-- Main body radius and height -->
+  <!-- Main Body Box base   -->
+  <xacro:property name="base_height" value="0.02" />
+  <xacro:property name="base_length" value="0.32" />
+  <xacro:property name="base_width" value="0.28" />
+  <xacro:property name="base_mass" value="5" /> <!-- in kg-->
+
+
+  <!-- Wheels -->
+
+  <xacro:property name="wheel_mass" value="2.5" /> --> <!-- in kg-->
+  
+  <xacro:property name="base_x_origin_to_wheel_origin" value="0.25" />
+  <xacro:property name="base_y_origin_to_wheel_origin" value="0.3" />
+  <xacro:property name="base_z_origin_to_wheel_origin" value="0.0" />
+
+
+
+  <!-- Macro for calculating inertia of cylinder -->
+  <xacro:macro name="cylinder_inertia" params="m r h">
+    <inertia  ixx="${m*(3*r*r+h*h)/12}" ixy = "0" ixz = "0"
+              iyy="${m*(3*r*r+h*h)/12}" iyz = "0"
+              izz="${m*r*r/2}" /> 
+  </xacro:macro>
+
+  <!-- Macro for calculating inertia of box -->
+  <xacro:macro name="box_inertia" params="m w l h">
+    <inertia  ixx="${m*(l*l+h*h)/12}" ixy = "0" ixz = "0"
+              iyy="${m*(w*w+h*h)/12}" iyz = "0"
+              izz="${m*(w*w+l+l)/12}" /> 
+  </xacro:macro>
+
+
+  <!-- BASE-LINK -->
+  <!--Actual body/chassis of the robot-->
+  <link name="base_link">
+    <inertial>
+      <mass value="${base_mass}" />
+      <origin xyz="0 0 0" />
+      <!--The 3x3 rotational inertia matrix. -->
+      <xacro:box_inertia  m="${base_mass}" w="${base_width}" l="${base_length}" h="${base_height}" />
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+               iyy="0.0001" iyz="0.0"
+               izz="0.0001" />
+    </inertial>    
+
+    <visual>
+    <origin xyz="0.16 0 0" rpy="0 0 0" /> <!-- 车头位于车体中央 -->
+    <geometry>
+      <box size="0.04 0.04 0.04" /> <!-- 小方块尺寸 -->
+    </geometry>
+    <material name="White" /> 
+  </visual>  
+  <collision>
+    <origin xyz="0.16 0 0" rpy="0 0 0 " /> <!-- 与visual的origin对齐 -->
+    <geometry>
+      <box size="0.04 0.04 0.04" />
+    </geometry>
+  </collision> 
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+          <box size="${base_length} ${base_width} ${base_height}" />
+      </geometry>
+      <material name="White" />
+    </visual>  
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0 " />
+      <geometry>
+          <box size="${base_length} ${base_width} ${base_height}" />
+      </geometry>
+    </collision>     
+  </link>
+  <gazebo reference="base_link">
+    <material>Gazebo/White</material>
+    <turnGravityOff>false</turnGravityOff>
+  </gazebo>
+  
+
+
+  <!-- Wheel Definitions -->
+
+  <xacro:wheel fb="front" lr="right" parent="base_link" translateX="0.4" translateY="-0.5" flipY="-1"/>
+  <xacro:wheel fb="front" lr="left" parent="base_link" translateX="0.4" translateY="0.5" flipY="-1"/>
+  <xacro:wheel fb="back" lr="right" parent="base_link" translateX="-0.4" translateY="-0.5" flipY="-1"/>
+  <xacro:wheel fb="back" lr="left" parent="base_link" translateX="-0.4" translateY="0.5" flipY="-1"/>
+	 
+  
+  <!-- Differential drive controller  -->
+  <gazebo>
+    <plugin name="differential_drive_controller" filename="libgazebo_ros_planar_move.so">
+
+      <updateRate>100.0</updateRate>
+
+      <leftFrontJoint>front_left_wheel_joint</leftFrontJoint>
+      <rightFrontJoint>front_right_wheel_joint</rightFrontJoint>
+      <leftRearJoint>back_left_wheel_joint</leftRearJoint>
+      <rightRearJoint>back_right_wheel_joint</rightRearJoint>
+
+      <wheelSeparation>0.3</wheelSeparation>
+      <wheelDiameter>0.08</wheelDiameter>
+      <broadcastTF>0</broadcastTF>
+      <torque>1</torque>
+      <topicName>cmd_vel</topicName>
+      <broadcastTF>0</broadcastTF>
+
+      <odometryFrame>odom</odometryFrame> 
+      <odometryTopic>odom</odometryTopic> 
+      <robotBaseFrame>base_link</robotBaseFrame>
+
+
+    </plugin>
+  </gazebo> 
+
+
+
+
+</robot>

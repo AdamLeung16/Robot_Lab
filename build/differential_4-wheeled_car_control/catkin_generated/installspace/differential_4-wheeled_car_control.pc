@@ -1,0 +1,8 @@
+prefix=/home/adam/catkin_ws/install
+
+Name: differential_4-wheeled_car_control
+Description: Description of differential_4-wheeled_car_control
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

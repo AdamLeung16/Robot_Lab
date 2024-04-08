@@ -1,0 +1,8 @@
+prefix=/home/adam/catkin_ws/devel
+
+Name: differential_4-wheeled_car
+Description: Description of differential_4-wheeled_car
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

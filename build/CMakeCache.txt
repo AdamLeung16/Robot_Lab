@@ -416,10 +416,22 @@ diff_wheeled_robot_control_BINARY_DIR:STATIC=/home/adam/catkin_ws/build/diff_whe
 diff_wheeled_robot_control_SOURCE_DIR:STATIC=/home/adam/catkin_ws/src/diff_wheeled_robot_control
 
 //Value Computed by CMake
-diff_wheeled_robot_gazebo_BINARY_DIR:STATIC=/home/adam/catkin_ws/build/diff_wheeled_robot_gazebo
+diff_wheeled_robot_gazebo_BINARY_DIR:STATIC=/home/adam/catkin_ws/build/differential_4-wheeled_car
 
 //Value Computed by CMake
-diff_wheeled_robot_gazebo_SOURCE_DIR:STATIC=/home/adam/catkin_ws/src/diff_wheeled_robot_gazebo
+diff_wheeled_robot_gazebo_SOURCE_DIR:STATIC=/home/adam/catkin_ws/src/differential_4-wheeled_car
+
+//Value Computed by CMake
+differential_4-wheeled_car_BINARY_DIR:STATIC=/home/adam/catkin_ws/build/differential_4-wheeled_car
+
+//Value Computed by CMake
+differential_4-wheeled_car_SOURCE_DIR:STATIC=/home/adam/catkin_ws/src/differential_4-wheeled_car
+
+//Value Computed by CMake
+differential_4-wheeled_car_control_BINARY_DIR:STATIC=/home/adam/catkin_ws/build/differential_4-wheeled_car_control
+
+//Value Computed by CMake
+differential_4-wheeled_car_control_SOURCE_DIR:STATIC=/home/adam/catkin_ws/src/differential_4-wheeled_car_control
 
 //The directory containing a CMake configuration file for gencpp.
 gencpp_DIR:PATH=/opt/ros/noetic/share/gencpp/cmake

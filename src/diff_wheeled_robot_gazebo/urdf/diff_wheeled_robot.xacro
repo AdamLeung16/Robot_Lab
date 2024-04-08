@@ -76,23 +76,32 @@
                iyy="0.0001" iyz="0.0"
                izz="0.0001" />
     </inertial>    
+
+    <visual>
+    <origin xyz="0.16 0 0" rpy="0 0 0" /> <!-- 车头位于车体中央 -->
+    <geometry>
+      <box size="0.04 0.04 0.04" /> <!-- 小方块尺寸 -->
+    </geometry>
+    <material name="White" /> 
+  </visual>  
+  <collision>
+    <origin xyz="0.16 0 0" rpy="0 0 0 " /> <!-- 与visual的origin对齐 -->
+    <geometry>
+      <box size="0.04 0.04 0.04" />
+    </geometry>
+  </collision> 
+
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-
-
           <box size="${base_length} ${base_width} ${base_height}" />
-
-
       </geometry>
       <material name="White" />
     </visual>  
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0 " />
       <geometry>
-
           <box size="${base_length} ${base_width} ${base_height}" />
-
       </geometry>
     </collision>     
   </link>
@@ -101,6 +110,7 @@
     <turnGravityOff>false</turnGravityOff>
   </gazebo>
   
+
 
   <!-- Wheel Definitions -->
 

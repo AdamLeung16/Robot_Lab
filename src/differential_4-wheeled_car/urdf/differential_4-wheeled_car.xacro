@@ -2,7 +2,7 @@
 <robot name="differential_4-wheeled_car" xmlns:xacro="http://www.ros.org/wiki/xacro">
   
 
-  <xacro:include filename="$(find differential_4-wheeled_car)/urdf/wheel.urdf.xacro" />
+  <xacro:include filename="$(find differential_4-wheeled_car)/urdf/wheel.xacro" />
 
 
 <!-- Defining the colors used in this robot -->
@@ -62,6 +62,7 @@
               iyy="${m*(w*w+h*h)/12}" iyz = "0"
               izz="${m*(w*w+l+l)/12}" /> 
   </xacro:macro>
+
 
 
   <!-- BASE-LINK -->
@@ -146,7 +147,18 @@
     </plugin>
   </gazebo> 
 
-
+  <gazebo>
+    <plugin name="p3d_base_controller" filename="libgazebo_ros_p3d.so">
+      <alwaysOn>true</alwaysOn>
+      <updateRate>50.0</updateRate>
+      <bodyName>base_link</bodyName>
+      <topicName>base_pose_ground_truth</topicName>
+      <gaussianNoise>0.0</gaussianNoise>
+      <frameName>map</frameName>
+      <xyzOffsets>0 0 0</xyzOffsets>
+      <rpyOffsets>0 0 0</rpyOffsets>
+    </plugin>
+  </gazebo>
 
 
 </robot>

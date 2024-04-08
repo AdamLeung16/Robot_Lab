@@ -1,0 +1,54 @@
+#!/usr/bin/env python
+
+import rospy
+from nav_msgs.msg import Odometry
+import tkinter as tk
+
+class ROSCoordinateViewer:
+    def __init__(self, master):
+        self.master = master
+        self.master.title("ROS Coordinate Viewer")
+        
+        self.canvas = tk.Canvas(master, width=500, height=500)
+        self.canvas.pack()
+
+        self.previous_point = None
+
+        # 订阅坐标信息的话题
+        rospy.init_node('coordinate_viewer', anonymous=True)
+        rospy.Subscriber("/base_pose_ground_truth", Odometry, self.coordinates_callback)
+
+    def coordinates_callback(self, data):
+        # 接收到坐标信息的回调函数
+        x = data.pose.pose.position.x
+        y = data.pose.pose.position.y
+        z = data.pose.pose.position.z
+        
+        # 在Canvas上绘制点
+        current_point = (x * 100 + 250, -y * 100 + 250)  # 将坐标映射到Canvas坐标系上
+        self.canvas.create_oval(current_point[0] - 2, current_point[1] - 2,
+                                 current_point[0] + 2, current_point[1] + 2,
+                                 fill="blue")
+
+        # 绘制轨迹
+        if self.previous_point:
+            self.canvas.create_line(self.previous_point[0], self.previous_point[1],
+                                    current_point[0], current_point[1],
+                                    fill="red")
+
+        # 更新前一个点
+        self.previous_point = current_point
+
+def main():
+    # 初始化ROS节点
+    rospy.init_node('coordinate_viewer', anonymous=True)
+    # 创建Tkinter应用程序
+    root = tk.Tk()
+    # 创建ROSCoordinateViewer实例
+    app = ROSCoordinateViewer(root)
+    # 进入Tkinter主循环
+    root.mainloop()
+
+if __name__ == '__main__':
+    main()
+

@@ -1,2 +1,2 @@
-differential_4-wheeled_car:differential_4-wheeled_car_control
+differential_4-wheeled_car:differential_4-wheeled_car_control:mobile_robot_simulator:tracking_pid
 -DCATKIN_DEVEL_PREFIX=/home/adam/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/adam/catkin_ws/install -G Unix Makefiles

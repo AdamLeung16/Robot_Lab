@@ -3,6 +3,8 @@
   
 
   <xacro:include filename="$(find differential_4-wheeled_car)/urdf/wheel.xacro" />
+  <xacro:include filename="$(find differential_4-wheeled_car)/urdf/my_sensors_laser.urdf.xacro" />
+  <xacro:include filename="$(find differential_4-wheeled_car)/urdf/my_laser.urdf.xacro" />
 
 
 <!-- Defining the colors used in this robot -->
@@ -21,6 +23,10 @@
 
   <material name="Blue">
     <color rgba="0.0 0.0 0.8 1.0"/>
+  </material>
+
+  <material name="DarkGray">
+    <color rgba="0.66 0.66 0.66 1.0"/>
   </material>
 
 
@@ -142,7 +148,7 @@
       <odometryFrame>odom</odometryFrame> 
       <odometryTopic>odom</odometryTopic> 
       <robotBaseFrame>base_link</robotBaseFrame>
-
+    
 
     </plugin>
   </gazebo> 

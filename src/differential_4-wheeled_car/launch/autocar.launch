@@ -1,10 +1,5 @@
 <launch>
 
-  <!-- We resume the logic in empty_world.launch -->
-  <include file="$(find gazebo_ros)/launch/empty_world.launch">
-  <arg name="world_name" value="$(find differential_4-wheeled_car)/world/myworld2.world"/>
-  </include>
-
   <!-- urdf xml robot description loaded on the Parameter Server-->
   <param name="robot_description" command="$(find xacro)/xacro $(find differential_4-wheeled_car)/urdf/differential_4-wheeled_car.xacro" />
 
@@ -13,13 +8,18 @@
 	args="-urdf -model differential_4-wheeled_car -param robot_description"/> 
 
   <!-- 雷达扫描建图步骤 -->
+
+  <!-- 导入地图 -->
+  <!-- <include file="$(find gazebo_ros)/launch/empty_world.launch">
+  <arg name="world_name" value="$(find differential_4-wheeled_car)/world/myworld2.world"/>
+  </include> -->
   <!-- 启动SLAM节点 -->
-  <include file="$(find differential_4-wheeled_car)/launch/slam.launch" />
-  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find differential_4-wheeled_car)/config/car_layer.rviz"/>
+  <!-- <include file="$(find differential_4-wheeled_car)/launch/slam.launch" />
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find differential_4-wheeled_car)/config/car_layer.rviz"/> -->
   
   <!-- 显示地图步骤 -->
-  <!-- <node pkg="rviz" type="rviz" name="rviz" args="-d $(find differential_4-wheeled_car)/config/car_map.rviz"/>
-  <node name="map_server" pkg="map_server" type="map_server" args="$(find differential_4-wheeled_car)/map/myworld2_map.yaml"/> -->
+  <!-- <node pkg="rviz" type="rviz" name="rviz" args="-d $(find differential_4-wheeled_car)/config/car_map.rviz"/> -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find differential_4-wheeled_car)/map/myworld2_map.yaml"/>
 
   <!-- 关节以及机器人状态发布节点 -->
     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />

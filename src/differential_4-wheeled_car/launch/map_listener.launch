@@ -1,0 +1,6 @@
+<launch>
+  <!-- differential_teleop_key already has its own built in velocity smoother -->
+  <node pkg="differential_4-wheeled_car" type="rcv_map" name="gmapping_listener"  output="screen">
+  </node>
+
+</launch>

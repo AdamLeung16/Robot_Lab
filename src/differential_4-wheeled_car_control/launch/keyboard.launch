@@ -8,7 +8,7 @@
 
   </node>
 
-  <node name="coordinate_viewer_node" pkg="differential_4-wheeled_car_control" type="printmap" output="screen">
-    </node>
+  <!-- <node name="coordinate_viewer_node" pkg="differential_4-wheeled_car_control" type="printmap" output="screen">
+    </node> -->
 
 </launch>

@@ -1,0 +1,61 @@
+#!/usr/bin/env python
+
+import rospy
+from nav_msgs.msg import OccupancyGrid
+from map_shrink import *
+
+def find_min_rect(array, width):
+    # 找到包含所有0和100的最小矩形的边界
+    min_row = float('inf')
+    max_row = 0
+    min_col = float('inf')
+    max_col = 0
+
+    for i, val in enumerate(array):
+        row = i // width
+        col = i % width
+        if val == 0 or val == 100:
+            min_row = min(min_row, row)
+            max_row = max(max_row, row)
+            min_col = min(min_col, col)
+            max_col = max(max_col, col)
+
+    return min_row, max_row, min_col, max_col
+
+def extract_subarray(array, width, min_row, max_row, min_col, max_col):
+    subarray = []
+    for row in range(min_row, max_row + 1):
+        subarray_row = array[row * width + min_col : row * width + max_col + 1]
+        subarray.append(subarray_row)
+    return subarray
+
+def gmapping_callback(data):
+    # 在这里处理接收到的GMapping信息
+    # 例如，你可以访问data.data来获取地图数据
+    map_data = data.data
+    width = data.info.width
+    height = data.info.height
+    # 进行其他处理
+    min_row, max_row, min_col, max_col = find_min_rect(map_data, 1984)
+    # 提取对应的二维数组块
+    subarray = extract_subarray(map_data, width, min_row, max_row, min_col, max_col)
+    txt = open('/home/adam/catkin_ws/src/differential_4-wheeled_car/map/map.txt','w')
+    for row in subarray:
+        for state in row:
+            txt.write(str(state)+' ')
+        txt.write('\n')
+    data = read_txt('/home/adam/catkin_ws/src/differential_4-wheeled_car/map/map.txt')
+    scaled_matrix = scale_matrix(data, 9, 15)
+    mirrored_vertical_data = mirror_vertical(scaled_matrix)
+    print_matrix(mirrored_vertical_data)
+
+def gmapping_listener():
+    rospy.init_node('gmapping_listener', anonymous=True)
+    rospy.Subscriber('/map', OccupancyGrid, gmapping_callback)
+    rospy.spin()
+
+if __name__ == '__main__':
+    try:
+        gmapping_listener()
+    except rospy.ROSInterruptException:
+        pass

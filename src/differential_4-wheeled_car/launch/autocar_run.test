@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+
+    <!-- Interpolator -->
+    <node name="interpolator" pkg="tracking_pid" type="path_interpolator">
+        <param name="target_x_vel" value="0.7"/>
+        <param name="target_x_acc" value="100"/>
+    </node>
+
+    <!-- PID controller -->
+    <node name="controller" pkg="tracking_pid" type="controller" output="screen">
+      <remap from="move_base/cmd_vel" to="/move_base/cmd_vel"/>
+      <remap from="local_trajectory" to="trajectory"/>
+      <param name="controller_debug_enabled" value="True"/>
+      <param name="l" value="0.5"/>
+      <param name="Kp_long" value="0.95"/>
+      <param name="Kp_lat" value="4.2"/>
+      <param name="Kp_ang" value="4.3"/>
+      <param name="Ki_long" value="0.36"/>
+      <param name="Ki_lat" value="0.16"/>
+      <param name="Ki_ang" value="0.36"/>
+      <param name="Kd_long" value="0"/>
+      <param name="Kd_lat" value="0"/>
+      <param name="Kd_ang" value="0"/>
+    </node>
+
+    <!-- Test path -->
+    <node name="publish_path" pkg="rostopic" type="rostopic" args="pub --latch /path nav_msgs/Path --file=$(find differential_4-wheeled_car)/trajectories/path.yaml"/>
+
+    <!-- test script -->
+    <test test-name="rostest_tracking_pid_node" pkg="tracking_pid" type="test_tracking_pid_system.py" />
+
+</launch>

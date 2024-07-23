@@ -14,9 +14,9 @@ roslaunch differential_4-wheeled_car_control keyboard.launch
 
 | 参数          | 值   | 参数         | 值   | 参数         | 值   |
 | ------------- | ---- | ------------ | ---- | ------------ | ---- |
-| $K\_p\_long$ | 0.95 | $K\_p\_lat$ | 4.2  | $K\_p\_ang$ | 4.3  |
-| $K\_i\_long$ | 0.36 | $K\_i\_lat$ | 0.16 | $K\_i\_ang$ | 0.36 |
-| $K\_d\_long$ | 0    | $K\_d\_lat$ | 0    | $K\_d\_ang$ | 0    |
+| $K_p_long$ | 0.95 | $K_p_lat$ | 4.2  | $K_p_ang$ | 4.3  |
+| $K_i_long$ | 0.36 | $K_i_lat$ | 0.16 | $K_i_ang$ | 0.36 |
+| $K_d_long$ | 0    | $K_d_lat$ | 0    | $K_d_ang$ | 0    |
 
 ```shell
 catkin_make
